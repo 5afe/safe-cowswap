@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "setup-safe": "ts-node src/setupSafe.ts",
-    "swap": "ts-node src/swap.ts"
+    "swap": "ts-node src/swap.ts",
+    "presign": "ts-node src/presign.ts",
+    "p": "ts-node src/p.ts"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +25,8 @@
     "@safe-global/protocol-kit": "^5.2.0",
     "@safe-global/safe-deployments": "^1.37.24",
     "@safe-global/safe-modules-deployments": "^2.2.4",
+    "ethers": "^5.7.2",
+    "inquirer": "^12.3.2",
     "viem": "^2.22.11"
   }
 }
