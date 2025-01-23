@@ -18,6 +18,7 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
+    "@cowprotocol/contracts": "^1.7.0",
     "@cowprotocol/cow-sdk": "^5.10.0-RC.1",
     "@safe-global/protocol-kit": "^5.2.0",
     "@safe-global/safe-deployments": "^1.37.24",

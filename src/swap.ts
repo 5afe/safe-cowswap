@@ -2,9 +2,9 @@ import Safe from "@safe-global/protocol-kit";
 import {
   OrderBookApi,
   SupportedChainId,
-  OrderQuoteSideKindBuy,
   OrderQuoteSideKindSell,
   OrderQuoteRequest,
+  SigningScheme,
 } from "@cowprotocol/cow-sdk";
 import * as dotenv from "dotenv";
 import {
@@ -65,11 +65,11 @@ const main = async () => {
 
   const chainId = await publicClient.getChainId();
 
-  const WETH_ADDRESS = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
-  const USDC_ADDRESS = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
-  const COWSWAP_ADDRESS = "";
-  const INPUT_AMOUNT = "100000000000"; // Amount of ETH to swap to USDC
-  const OUTOUT_AMOUNT = "0"; // 0 USDC
+  const WETH_ADDRESS = "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14";
+  const USDC_ADDRESS = "0xbe72E441BF55620febc26715db68d3494213D8Cb";
+  const COWSWAP_GPv2VAULT_RELAYER_ADDRESS =
+    "0xC92E8bdf79f0507f65a392b0ab4667716BFE0110";
+  const INPUT_AMOUNT = (0.02 * 10 ** 18).toString(); // 0.02 ETH
 
   const callDataDeposit = encodeFunctionData({
     abi: WETH_ABI,
@@ -94,7 +94,7 @@ const main = async () => {
   const callDataApprove = encodeFunctionData({
     abi: WETH_ABI,
     functionName: "approve",
-    args: [COWSWAP_ADDRESS, INPUT_AMOUNT],
+    args: [COWSWAP_GPv2VAULT_RELAYER_ADDRESS, INPUT_AMOUNT],
   });
 
   const safeApproveTx: MetaTransactionData = {
@@ -128,31 +128,48 @@ const main = async () => {
 
   console.log("USDC balance before: ", usdcBalanceBefore);
 
-  // const safeTx = await protocolKit.createTransaction({
-  //   transactions: [safeDepositTx, safeApproveTx],
-  //   onlyCalls: true,
-  // });
+  const safeTx = await protocolKit.createTransaction({
+    transactions: [safeApproveTx], // safeDepositTx,
+    onlyCalls: true,
+  });
 
-  // const txResponse = await protocolKit.executeTransaction(safeTx);
-  // await publicClient.waitForTransactionReceipt({
-  //   hash: txResponse.hash as `0x${string}`,
-  // });
+  const txResponse = await protocolKit.executeTransaction(safeTx);
+  await publicClient.waitForTransactionReceipt({
+    hash: txResponse.hash as `0x${string}`,
+  });
 
   const quoteRequest: OrderQuoteRequest = {
     sellToken: WETH_ADDRESS,
     buyToken: USDC_ADDRESS,
     from: SAFE_ADDRESS,
     receiver: SAFE_ADDRESS,
-    sellAmountBeforeFee: (0.001 * 10 ** 18).toString(), // 0.4 WETH
+    sellAmountBeforeFee: INPUT_AMOUNT, // 0.4 WETH
     kind: OrderQuoteSideKindSell.SELL,
+    signingScheme: SigningScheme.EIP1271,
   };
-  
+
   const orderBookApi = new OrderBookApi({ chainId: SupportedChainId.SEPOLIA });
-  const { quote } = await orderBookApi.getQuote(quoteRequest)
+  const { quote } = await orderBookApi.getQuote(quoteRequest);
 
   console.log("Quote: ", quote);
 
-  // console.log(`Deposit and approve transaction: [${txResponse.hash}]`);
+  console.log(`Deposit and approve transaction: [${txResponse.hash}]`);
+
+  const signature = "0x"; // TODO: Sign the order with the Safe signer
+
+  const orderId = await orderBookApi.sendOrder({
+    ...quote,
+    signature: "0x",
+    signingScheme: SigningScheme.EIP1271,
+  });
+
+  console.log("Order ID: ", orderId);
+
+  const order = await orderBookApi.getOrder(orderId);
+  console.log("Order: ", order);
+
+  const trades = await orderBookApi.getTrades({ orderUid: orderId });
+  console.log("Trades: ", trades);
 
   console.log(
     `ETH balance after: ${await publicClient.getBalance({
