@@ -143,7 +143,7 @@ const main = async () => {
     buyToken: USDC_ADDRESS,
     from: SAFE_ADDRESS,
     receiver: SAFE_ADDRESS,
-    sellAmountBeforeFee: INPUT_AMOUNT, // 0.4 WETH
+    sellAmountBeforeFee: INPUT_AMOUNT,
     kind: OrderQuoteSideKindSell.SELL,
     signingScheme: SigningScheme.EIP1271,
   };
@@ -159,7 +159,7 @@ const main = async () => {
 
   const orderId = await orderBookApi.sendOrder({
     ...quote,
-    signature: "0x",
+    signature: signature,
     signingScheme: SigningScheme.EIP1271,
   });
 
