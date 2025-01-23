@@ -1,0 +1,27 @@
+{
+  "name": "safe-cowswap",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "setup-safe": "ts-node src/setupSafe.ts",
+    "swap": "ts-node src/swap.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.10.7",
+    "dotenv": "^16.4.7",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "@cowprotocol/cow-sdk": "^5.10.0-RC.1",
+    "@safe-global/protocol-kit": "^5.2.0",
+    "@safe-global/safe-deployments": "^1.37.24",
+    "@safe-global/safe-modules-deployments": "^2.2.4",
+    "viem": "^2.22.11"
+  }
+}
