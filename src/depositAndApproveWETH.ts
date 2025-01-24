@@ -12,7 +12,7 @@ import { privateKeyToAccount } from "viem/accounts";
 import WETH_ABI from "./utils/abi/weth";
 import { mainnet } from "viem/chains";
 import { OperationType, MetaTransactionData } from "@safe-global/types-kit";
-import { COWSWAP_GPv2VAULT_RELAYER_ADDRESS, INPUT_AMOUNT, WETH_ADDRESS } from "./conts";
+import { COWSWAP_GPv2VAULT_RELAYER_ADDRESS, INPUT_AMOUNT, WETH_ADDRESS } from "./constants";
 
 // Load environment variables from .env file
 dotenv.config();

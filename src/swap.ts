@@ -13,7 +13,7 @@ import { MetaTransactionData, OperationType } from "@safe-global/types-kit";
 import { defineChain, http, createPublicClient } from "viem";
 import { sepolia } from "viem/chains";
 import * as dotenv from "dotenv";
-import { WETH_ADDRESS, INPUT_AMOUNT, COW_ADDRESS } from "./conts";
+import { WETH_ADDRESS, INPUT_AMOUNT, COW_ADDRESS } from "./constants";
 
 // Load environment variables from .env file
 dotenv.config();
