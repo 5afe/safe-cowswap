@@ -11,5 +11,9 @@ npm run setup-safe
 ```
 
 ```bash
+npm run deposit-and-approve
+```
+
+```bash
 npm run swap
 ```
