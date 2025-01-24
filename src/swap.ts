@@ -94,11 +94,8 @@ dotenv.config();
   });
 
   const txResponse = await protocolKit.executeTransaction(safeTx);
-  // Send tx using viem
-  console.log("\n3. Sign and send to Ethereum the pre-sign transaction");
-
-  console.log(`Sent tx hash: ${txResponse.hash}`);
-  console.log("\n4. Waiting for the tx to be mined");
+  console.log(`Sent tx hash: [${txResponse.hash}]`);
+  console.log("Waiting for the tx to be mined");
   await publicClient.waitForTransactionReceipt({
     hash: txResponse.hash as `0x${string}`,
   });
