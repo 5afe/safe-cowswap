@@ -5,7 +5,7 @@ import Safe, {
 import * as dotenv from "dotenv";
 import { createPublicClient, createWalletClient, defineChain, http } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
-import { mainnet } from "viem/chains";
+import { sepolia } from "viem/chains";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -47,7 +47,7 @@ const main = async () => {
   if (!client) return;
 
   const customChain = defineChain({
-    ...mainnet,
+    ...sepolia,
     name: "custom chain",
     transport: http(RPC_URL),
   });
