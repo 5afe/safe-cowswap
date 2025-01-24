@@ -13,6 +13,7 @@ dotenv.config();
 const main = async () => {
   // Destructure environment variables
   const { SAFE_ADDRESS, SIGNER_PRIVATE_KEY, RPC_URL } = process.env;
+  const account = privateKeyToAccount(SIGNER_PRIVATE_KEY as `0x${string}`);
 
   // Check if all required environment variables are present
   if (!SIGNER_PRIVATE_KEY || !RPC_URL) {
@@ -20,7 +21,7 @@ const main = async () => {
   }
 
   const safeAccountConfig: SafeAccountConfig = {
-    owners: ["0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"],
+    owners: [account.address],
     threshold: 1,
     // More optional properties
   };
@@ -71,7 +72,6 @@ const main = async () => {
 
   console.log(`Transaction hash: ${transactionHash}`);
 
-  const account = privateKeyToAccount(SIGNER_PRIVATE_KEY as `0x${string}`);
   // Fund Safe
   await walletClient.sendTransaction({
     account: account,
