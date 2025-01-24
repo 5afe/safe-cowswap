@@ -9,7 +9,6 @@ import {
   getContract,
 } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
-import ERC20_ABI from "./utils/abi/erc20";
 import WETH_ABI from "./utils/abi/weth";
 import { mainnet } from "viem/chains";
 import { OperationType, MetaTransactionData } from "@safe-global/types-kit";
